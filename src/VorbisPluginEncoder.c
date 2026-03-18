@@ -140,8 +140,8 @@ static int32_t write_all_pcm_data_using_on_write_callback(
     long j = 0;
     while (!eos) {
         long to_read = samples_to_write;
-        if (j + to_read > samples_length) {
-            to_read = samples_length - j;
+        if (j + to_read * channels > samples_length) {
+            to_read = (samples_length - j) / channels;
         }
 
         if (to_read == 0) {
