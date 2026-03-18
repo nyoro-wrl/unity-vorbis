@@ -11,6 +11,7 @@ on:
   pull_request:
     branches:
       - dev
+  workflow_dispatch:
 
 jobs:
   build_windows:
@@ -242,6 +243,8 @@ jobs:
   commit_and_push_native_libraries:
     needs: [build_windows, build_android, build_macos, build_ios, build_linux, build_webgl]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -297,7 +300,7 @@ jobs:
 
       - name: Commit and push native libraries
         env:
-          MY_SECRET: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          MY_SECRET: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
           shopt -s globstar nullglob
@@ -352,5 +355,5 @@ jobs:
           git tag -a 0.3.0-dev.${{ github.run_number }} -m "New native libraries version: 0.3.0-dev.${{ github.run_number }}"
           git config -l | grep 'http\..*\.extraheader' | cut -d= -f1 | xargs -L1 git config --unset-all
           echo "Trying to push..."
-          git push --set-upstream https://token:$MY_SECRET@github.com/gindemit/unity-vorbis.git
-          git push --tags --set-upstream https://token:$MY_SECRET@github.com/gindemit/unity-vorbis.git
+          git push --set-upstream https://token:$MY_SECRET@github.com/${{ github.repository }}.git
+          git push --tags --set-upstream https://token:$MY_SECRET@github.com/${{ github.repository }}.git
