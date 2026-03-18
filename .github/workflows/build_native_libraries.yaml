@@ -348,8 +348,8 @@ jobs:
           cp -f "$LINUX_SO" "$PROJECT_PLUGINS_DIR/Linux/x86_64/libVorbisPlugin.so"
           git add .
           git status
-          git config --global user.email "konstantin.gindemit@gmail.com"
-          git config --global user.name "Konstantin Gindemit"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           git remote -v
           git commit --allow-empty -m "New native libraries version: 0.3.0-dev.${{ github.run_number }}"
           git tag -a 0.3.0-dev.${{ github.run_number }} -m "New native libraries version: 0.3.0-dev.${{ github.run_number }}"
